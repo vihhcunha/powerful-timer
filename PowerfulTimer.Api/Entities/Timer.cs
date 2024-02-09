@@ -11,4 +11,11 @@ public class Timer
     {
         TimerId = Guid.NewGuid();
     }
+
+    public Timer(string name, long seconds)
+    {
+        TimerId = Guid.NewGuid();
+        Name = name;
+        Seconds = seconds;
+    }
 }

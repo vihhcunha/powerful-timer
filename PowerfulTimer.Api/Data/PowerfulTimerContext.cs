@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PowerfulTimer.Api.Entities;
+using Timer = PowerfulTimer.Api.Entities.Timer;
 
 namespace PowerfulTimer.Api.Data;
 
