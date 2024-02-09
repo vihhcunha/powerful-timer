@@ -6,6 +6,9 @@ using PowerfulTimer.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+if (builder.Environment.IsProduction())
+    builder.WebHost.UseSentry();
+
 // Add services to the container.
 builder.Services.AddDbContext<PowerfulTimerContext>(c =>
 {
@@ -51,6 +54,11 @@ app.UseCors(option =>
     option.AllowAnyHeader();
     option.AllowAnyMethod();
 });
+
+if (app.Environment.IsProduction())
+{
+    app.UseSentryTracing();
+}
 
 app.UseHttpsRedirection();
 
