@@ -4,6 +4,7 @@ using PowerfulTimer.Api.Data;
 using PowerfulTimer.Api.Middlewares;
 using PowerfulTimer.Api.Models;
 using PowerfulTimer.Api.Services;
+using PowerfulTimer.Api.Services.WebSockets;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddDbContext<PowerfulTimerContext>(c =>
     c.EnableDetailedErrors();
 });
 builder.Services.AddScoped<ITimerService, TimerService>();
+builder.Services.AddSingleton<IWebSocketService, WebSocketService>();
 builder.Services.AddCors();
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers().ConfigureApiBehaviorOptions(options => 
@@ -68,6 +70,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseWebSockets();
 
 app.MapHealthChecks("/health-check");
 app.MapControllers();
