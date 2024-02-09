@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PowerfulTimer.Api.Data;
 using PowerfulTimer.Api.Middlewares;
 using PowerfulTimer.Api.Models;
+using PowerfulTimer.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,11 @@ builder.Services.AddDbContext<PowerfulTimerContext>(c =>
     c.LogTo(Console.WriteLine);
     c.EnableDetailedErrors();
 });
+builder.Services.AddScoped<ITimerService, TimerService>();
 builder.Services.AddCors();
 builder.Services.AddHealthChecks();
-builder.Services.AddControllers().ConfigureApiBehaviorOptions(options => {
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options => 
+{
     options.InvalidModelStateResponseFactory = (errorContext) =>
     {
         var errors = errorContext.ModelState
