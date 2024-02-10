@@ -28,7 +28,10 @@ public class WebSocketService : IWebSocketService
 
             if (result.MessageType == WebSocketMessageType.Text)
             {
-                handleMessage(new WebSocketReceivedMessage<T>(JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(buffer, 0, result.Count))));
+                handleMessage(new WebSocketReceivedMessage<T>(JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(buffer, 0, result.Count), new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                })));
             }
             else if (result.MessageType == WebSocketMessageType.Close || socket.State == WebSocketState.Aborted)
             {
@@ -70,7 +73,10 @@ public class WebSocketService : IWebSocketService
 
     public async Task Broadcast<T>(T message)
     {
-        await Broadcast(JsonSerializer.Serialize(message));
+        await Broadcast(JsonSerializer.Serialize(message, options: new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        }));
     }
 
     public void AddSocketConnection(WebSocket webSocket)

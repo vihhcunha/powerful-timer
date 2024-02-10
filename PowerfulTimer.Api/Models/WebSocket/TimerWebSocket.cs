@@ -4,4 +4,5 @@ public record TimerWebSocket
 {
     public Guid TimerId { get; set; }
     public bool Play { get; set; }
+    public bool Stop { get; set; }
 }

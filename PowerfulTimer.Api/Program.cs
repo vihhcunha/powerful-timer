@@ -51,14 +51,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
 app.UseCors(option =>
 {
     option.AllowAnyOrigin();
     option.AllowAnyHeader();
     option.AllowAnyMethod();
 });
+
+app.UseHttpsRedirection();
 
 if (app.Environment.IsProduction())
 {
@@ -70,7 +70,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseMiddleware<ExceptionMiddleware>();
-app.UseWebSockets();
+app.UseWebSockets(new WebSocketOptions { KeepAliveInterval = TimeSpan.FromMinutes(40)});
 
 app.MapHealthChecks("/health-check");
 app.MapControllers();
