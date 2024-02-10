@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text;
 using PowerfulTimer.Api.Services.WebSockets.DTOs;
+using Microsoft.IdentityModel.Tokens;
 
 namespace PowerfulTimer.Api.Services.WebSockets;
 
@@ -28,10 +29,14 @@ public class WebSocketService : IWebSocketService
 
             if (result.MessageType == WebSocketMessageType.Text)
             {
-                handleMessage(new WebSocketReceivedMessage<T>(JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(buffer, 0, result.Count), new JsonSerializerOptions
+                var resultMessage = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                if (!resultMessage.IsNullOrEmpty())
                 {
-                    PropertyNameCaseInsensitive = true,
-                })));
+                    handleMessage(new WebSocketReceivedMessage<T>(JsonSerializer.Deserialize<T>(resultMessage, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                    })));
+                }
             }
             else if (result.MessageType == WebSocketMessageType.Close || socket.State == WebSocketState.Aborted)
             {
