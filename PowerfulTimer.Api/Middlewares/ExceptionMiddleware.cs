@@ -23,6 +23,9 @@ public class ExceptionMiddleware
 
     private static async Task HandleRequestExceptionAsync(Exception exception, ILogger<string> logger, HttpContext context)
     {
+        if (context.Response.HasStarted)
+            return;
+        
         logger.LogError(exception, "Unhandled exception: " + exception.Message);
         context.Response.StatusCode = 500;
         await context.Response.CompleteAsync();
