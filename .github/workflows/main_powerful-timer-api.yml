@@ -47,7 +47,7 @@ jobs:
         with:
           server-name: tcp:powerfultimerdb.database.windows.net
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
-          sql-file: ${{env.DOTNET_ROOT}}/sql/sql-script.sql
+          path: ${{env.DOTNET_ROOT}}/sql/sql-script.sql
 
   deploy:
     runs-on: ubuntu-latest
