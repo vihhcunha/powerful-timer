@@ -43,7 +43,7 @@ jobs:
         run: dotnet ef migrations script --output ${{env.DOTNET_ROOT}}/sql/sql-script.sql --idempotent --context PowerfulTimerContext --startup-project PowerfulTimer.Api/PowerfulTimer.Api.csproj
 
       - name: Azure SQL Deploy
-        uses: Azure/sql-action@v1.3
+        uses: Azure/sql-action@v2.3
         with:
           server-name: tcp:powerfultimerdb.database.windows.net
           connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
